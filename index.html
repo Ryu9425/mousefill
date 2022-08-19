@@ -103,7 +103,9 @@
 	<script>
 
 		var scrollPos = 0
-		var isScrolling = false		
+		var isScrolling = false
+
+		var isFooting=false
 		var headerHeight = $(".header").height()
 		var winHeight = $(window).height()
 
@@ -115,12 +117,15 @@
 			var movingContents = $(".filling")
 			for (var i = 0; i < movingContents.length; i++) {
 				var dist = headerHeight + winHeight * (i)
-				console.log(i+"  "+dist)
-				movingContents[i].style.top = dist+'px';
+				console.log(i + "  " + dist)
+				movingContents[i].style.top = dist + 'px';
 			}
+			var footer = $(".footer")
+			footer.style.position = 'absolute'
+			footer.style.top = movingContents[i].style.top + winHeight + 'px';
 		})
 
-		$(document).on("scroll", function () {			
+		$(document).on("scroll", function () {
 
 			var pageTop = $(document).scrollTop()
 			var mainSection = $(".main_contents")
@@ -132,59 +137,38 @@
 			var diff = 10000
 			var selectedElNum = -1
 
-
 			console.log("rrrrr  " + currentT)
 
-			for (var i = 0; i < movingContents.length; i++) {
-
-				console.log("pp  "+i+" : "+$(movingContents[i]).position().top+"  "+currentT+ headerHeight)
-
-				if ($(movingContents[i]).position().top < pageTop+20) {
-					movingContents[i].style.position = 'fixed'
-					movingContents[i].style.top = '0px'
-				}
-			}
-
-
-			if (currentT > 0 && pageTop > scrollPos) {
-
-				var heightScale = parseInt(currentT / winHeight)
-				var heightDiff = currentT - winHeight * heightScale
-
-				movingContents[0].style.position = 'fixed'
-				movingContents[0].style.top = '0'
-				console.log("666666666666666666 " + headerHeight + winHeight)
-				for (var i = heightScale + 1; i < movingContents.length; i++) {
-					console.log("mmmmmmmmmmmmmmmmmmm  " + heightScale + 1)
-					//movingContents[i-1].style.position = 'fixed'
-					// movingContents[i-1].style.top = '0'
-					//movingContents[i].style.top =  headerHeight+winHeight*(heightScale+i)+"px"					
-					//movingContents[2].style.transform = "translateY(" + headerHeight+winHeight*(heightScale+1) + "px)"
-					//movingContents[3].style.transform = "translateY(" + headerHeight+winHeight*(heightScale+1) + "px)"
-					//movingContents[4].style.transform = "translateY(" + headerHeight+winHeight*(heightScale+1) + "px)"					
+			if (movingContents[4].style.top == '0px'&&isFooting==false) {
+				console.log("5555")
+				for (var i = 0; i < movingContents.length - 1; i++) {
+					if (i != 4) {
+						movingContents[i].style.position = 'absolute'
+						movingContents[i].style.top = ''
+						movingContents[i].style.display = 'none'
+					}
 				}
 
-				//movingContents[0].style.top ='0'
-				console.log("fff");
-			} else {
-				var heightScale = parseInt(currentT / winHeight)
-				var heightDiff = currentT - winHeight * heightScale
+				movingContents[4].style.position = 'relative'
+				movingContents[4].style.top = '673px'
+				isFooting=true
+			} else if(!isFooting){
+				for (var i = 0; i < movingContents.length; i++) {
 
-				console.log("scale " + heightScale);
-				if (heightScale == 1) {
-					//movingContents[1].style.transform = "translateY(" + headerHeight+winHeight + "px)"					
-					//movingContents[2].style.transform = "translateY(" + 967 + "px)"
-					//movingContents[3].style.transform = "translateY(" + 967 + "px)"
-					//movingContents[4].style.transform = "translateY(" + 967 + "px)"
+					console.log("pp  " + i + " : " + $(movingContents[i]).position().top + "  " + currentT + headerHeight)
+
+					if ($(movingContents[i]).position().top < pageTop + 20 && pageTop > scrollPos) {
+						//if(i!=4){
+						movingContents[i].style.position = 'fixed'
+						movingContents[i].style.top = '0px'
+						//}
+
+					}
 				}
+			}else{
+
 			}
 
-			if (currentT < 0 && pageTop < scrollPos) {
-
-			//	movingContents[0].style.position = ''
-			//	movingContents[0].style.top = ''
-			//	console.log("bbbb");
-			}
 
 			scrollPos = pageTop
 		})
