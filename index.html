@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS -->
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+		integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+	<title></title>
+
+</head>
+
+<body>
+	<section class="header">
+		<img src="assets/img/header.jpg" alt="">
+	</section>
+
+	<section class="main_contents">
+		<div class="dot_nav scroll_navigation">
+			<ul>
+				<li class="dot active"></li>
+				<li class="dot"></li>
+				<li class="dot"></li>
+				<li class="dot"></li>
+				<li class="dot"></li>
+			</ul>
+		</div>
+		<div class="main_contents-01 filling" style="position:absolute">
+			<div class="main_contents_inner">
+				<div class="main_contents_text ">
+					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
+					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
+				</div>
+				<div class="main_contents_img ">
+					<img src="assets/img/img01.png" alt="">
+				</div>
+			</div>
+		</div>
+
+		<div class="main_contents-02 filling " style="position:absolute">
+			<div class="main_contents_inner rev">
+				<div class="main_contents_text ">
+					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
+					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
+				</div>
+				<div class="main_contents_img ">
+					<img src="assets/img/img01.png" alt="">
+				</div>
+			</div>
+		</div>
+
+		<div class="main_contents-03 filling" style="position:absolute ">
+			<div class="main_contents_inner">
+				<div class="main_contents_text ">
+					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
+					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
+				</div>
+				<div class="main_contents_img ">
+					<img src="assets/img/img01.png" alt="">
+				</div>
+			</div>
+		</div>
+
+		<div class="main_contents-04 filling" style="position:absolute">
+			<div class="main_contents_inner rev">
+				<div class="main_contents_text ">
+					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
+					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
+				</div>
+				<div class="main_contents_img ">
+					<img src="assets/img/img01.png" alt="">
+				</div>
+			</div>
+		</div>
+
+		<div class="main_contents-05 filling" style="position:absolute">
+			<div class="main_contents_inner">
+				<div class="main_contents_text ">
+					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
+					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
+				</div>
+				<div class="main_contents_img ">
+					<img src="assets/img/img01.png" alt="">
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="footer">
+		<img src="assets/img/footer.jpg" alt="">
+	</section>
+
+	<script>
+
+		var scrollPos = 0
+		var isScrolling = false		
+		var headerHeight = $(".header").height()
+		var winHeight = $(window).height()
+
+		var movingContents = $(".filling")
+
+
+		$(document).ready(function () {
+			console.log(" oo  ")
+			var movingContents = $(".filling")
+			for (var i = 0; i < movingContents.length; i++) {
+				var dist = headerHeight + winHeight * (i)
+				console.log(i+"  "+dist)
+				movingContents[i].style.top = dist+'px';
+			}
+		})
+
+		$(document).on("scroll", function () {			
+
+			var pageTop = $(document).scrollTop()
+			var mainSection = $(".main_contents")
+
+			var mainContents = $(".main_contents_inner")
+
+			var currentT = pageTop - headerHeight
+
+			var diff = 10000
+			var selectedElNum = -1
+
+
+			console.log("rrrrr  " + currentT)
+
+			for (var i = 0; i < movingContents.length; i++) {
+
+				console.log("pp  "+i+" : "+$(movingContents[i]).position().top+"  "+currentT+ headerHeight)
+
+				if ($(movingContents[i]).position().top < pageTop+20) {
+					movingContents[i].style.position = 'fixed'
+					movingContents[i].style.top = '0px'
+				}
+			}
+
+
+			if (currentT > 0 && pageTop > scrollPos) {
+
+				var heightScale = parseInt(currentT / winHeight)
+				var heightDiff = currentT - winHeight * heightScale
+
+				movingContents[0].style.position = 'fixed'
+				movingContents[0].style.top = '0'
+				console.log("666666666666666666 " + headerHeight + winHeight)
+				for (var i = heightScale + 1; i < movingContents.length; i++) {
+					console.log("mmmmmmmmmmmmmmmmmmm  " + heightScale + 1)
+					//movingContents[i-1].style.position = 'fixed'
+					// movingContents[i-1].style.top = '0'
+					//movingContents[i].style.top =  headerHeight+winHeight*(heightScale+i)+"px"					
+					//movingContents[2].style.transform = "translateY(" + headerHeight+winHeight*(heightScale+1) + "px)"
+					//movingContents[3].style.transform = "translateY(" + headerHeight+winHeight*(heightScale+1) + "px)"
+					//movingContents[4].style.transform = "translateY(" + headerHeight+winHeight*(heightScale+1) + "px)"					
+				}
+
+				//movingContents[0].style.top ='0'
+				console.log("fff");
+			} else {
+				var heightScale = parseInt(currentT / winHeight)
+				var heightDiff = currentT - winHeight * heightScale
+
+				console.log("scale " + heightScale);
+				if (heightScale == 1) {
+					//movingContents[1].style.transform = "translateY(" + headerHeight+winHeight + "px)"					
+					//movingContents[2].style.transform = "translateY(" + 967 + "px)"
+					//movingContents[3].style.transform = "translateY(" + 967 + "px)"
+					//movingContents[4].style.transform = "translateY(" + 967 + "px)"
+				}
+			}
+
+			if (currentT < 0 && pageTop < scrollPos) {
+
+			//	movingContents[0].style.position = ''
+			//	movingContents[0].style.top = ''
+			//	console.log("bbbb");
+			}
+
+			scrollPos = pageTop
+		})
+
+	</script>
+
+</body>
+
+</html>
