@@ -26,7 +26,7 @@
 	</section>
 
 	<section class="main_contents">
-		<div class="dot_nav scroll_navigation">
+		<div class="scroll_navigation " id="scroll_navigation" style=" ">
 			<ul>
 				<li class="dot active"></li>
 				<li class="dot"></li>
@@ -108,6 +108,7 @@
 		var isFooting = false
 		var headerHeight = $(".header").height()
 		var winHeight = $(window).height()
+		var scroll_navigationTop = headerHeight + winHeight * 4 / 10
 
 		var dists = []
 
@@ -119,7 +120,7 @@
 			var movingContents = $(".filling")
 			for (var i = 0; i < movingContents.length; i++) {
 				var dist = headerHeight + winHeight * (i)
-				console.log(i + "  " + dist)
+				//console.log(i + "  " + dist)
 				dists[i] = dist
 				movingContents[i].style.top = dist + 'px';
 				var footer = $(".footer")
@@ -130,18 +131,16 @@
 		})
 
 		window.onload = function () {
-			setTimeout(function () {
-				var footer = document.getElementById('footer');
-				var footerTop = headerHeight + winHeight * 5
-				footer.setAttribute("style", "position:absolute ; top:" + footerTop + "px");
-			}, 500);
+			var scroll_navigation = document.getElementById('scroll_navigation');
+			scroll_navigation.setAttribute("style", "position:absolute ; top:" + scroll_navigationTop + "px");
+			var footer = document.getElementById('footer');
+			var footerTop = headerHeight + winHeight * 5
+			footer.setAttribute("style", "position:absolute ; top:" + footerTop + "px");
 		}
-		
 
 		$(document).on("scroll", function () {
 
 			var pageTop = $(document).scrollTop()
-			var mainSection = $(".main_contents")
 			var mainContents = $(".main_contents_inner")
 			var currentT = pageTop - headerHeight
 
@@ -195,13 +194,12 @@
 					movingContents[0].style.top = dists[0] + 'px'
 				}
 
-				if (scrollPos < dists[0]*1/4) {
+				if (scrollPos < dists[0] * 1 / 4) {
 					mainContents[0].children[1].classList.remove("ani_img_show")
 					mainContents[0].children[1].classList.add("init_hide")
 					mainContents[0].children[0].classList.remove("ani_text_show")
 					mainContents[0].children[0].classList.add("init_hide")
 				}
-
 				scrollPos = pageTop
 			}
 
@@ -219,6 +217,44 @@
 					mainContents[selectedElNum].children[0].classList.add("ani_text_show")
 					mainContents[selectedElNum].children[0].classList.remove("init_hide")
 				}, 700);
+			}
+
+			var navLis = $(".dot")
+
+			for (i = 0; i < movingContents.length; i++) {
+				if (currentT < 0)
+					navLis[0].classList.add("active")
+				else if (currentT > dists[4]-headerHeight + winHeight * 1 / 12) {
+					navLis[4].classList.add("active")
+				}
+				else if (currentT > dists[i] - headerHeight - winHeight * 11 / 12 &&
+					currentT < dists[i] - headerHeight + winHeight * 1 / 12) {
+					navLis[i].classList.add("active")
+				} else {
+					navLis[i].classList.remove("active")
+				}
+			}
+
+			var navEl = document.querySelector(".scroll_navigation")
+			var currentNav = $(navEl).position().top
+
+			var footer = document.querySelector(".footer")
+			var currentFooter = $(footer).position().top
+
+			var scroll_MaxTop = dists[4] + winHeight * 4 / 10
+
+			style = getComputedStyle(navEl)
+
+			console.log(currentT+" "+(dists[3] - winHeight / 2)+" "+scroll_MaxTop+ " : "+ headerHeight)
+			if (currentT > 0 && currentT < dists[4]-headerHeight) {
+				navEl.setAttribute("style", "position:fixed ; top:" + winHeight * 4 / 10 + "px");
+			}
+
+			if (currentT > dists[4]-headerHeight) {
+				navEl.setAttribute("style", "position:absolute ; top:" + scroll_MaxTop + "px");
+			}
+			if (currentT < 0) {
+				navEl.setAttribute("style", "position:absolute ; top:" + scroll_navigationTop + "px");
 			}
 		})
 	</script>
