@@ -36,60 +36,60 @@
 			</ul>
 		</div>
 		<div class="main_contents-01 filling" style="position:absolute">
-			<div class="main_contents_inner">
-				<div class="main_contents_text ">
+			<div class="main_contents_inner ">
+				<div class="main_contents_text init_hide">
 					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
 					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
 				</div>
-				<div class="main_contents_img ">
+				<div class="main_contents_img init_hide">
 					<img src="assets/img/img01.png" alt="">
 				</div>
 			</div>
 		</div>
 
 		<div class="main_contents-02 filling " style="position:absolute">
-			<div class="main_contents_inner rev">
-				<div class="main_contents_text ">
+			<div class="main_contents_inner rev ">
+				<div class="main_contents_text init_hide">
 					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
 					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
 				</div>
-				<div class="main_contents_img ">
+				<div class="main_contents_img init_hide">
 					<img src="assets/img/img01.png" alt="">
 				</div>
 			</div>
 		</div>
 
 		<div class="main_contents-03 filling" style="position:absolute ">
-			<div class="main_contents_inner">
-				<div class="main_contents_text ">
+			<div class="main_contents_inner ">
+				<div class="main_contents_text init_hide">
 					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
 					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
 				</div>
-				<div class="main_contents_img ">
+				<div class="main_contents_img init_hide">
 					<img src="assets/img/img01.png" alt="">
 				</div>
 			</div>
 		</div>
 
 		<div class="main_contents-04 filling" style="position:absolute">
-			<div class="main_contents_inner rev">
-				<div class="main_contents_text ">
+			<div class="main_contents_inner rev ">
+				<div class="main_contents_text init_hide">
 					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
 					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
 				</div>
-				<div class="main_contents_img ">
+				<div class="main_contents_img init_hide">
 					<img src="assets/img/img01.png" alt="">
 				</div>
 			</div>
 		</div>
 
 		<div class="main_contents-05 filling" style="position:absolute">
-			<div class="main_contents_inner">
-				<div class="main_contents_text ">
+			<div class="main_contents_inner ">
+				<div class="main_contents_text init_hide">
 					<h1>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</h1>
 					<p>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
 				</div>
-				<div class="main_contents_img ">
+				<div class="main_contents_img init_hide">
 					<img src="assets/img/img01.png" alt="">
 				</div>
 			</div>
@@ -110,6 +110,8 @@
 		var winHeight = $(window).height()
 
 		var dists = []
+
+		var selectedElNum = -1
 
 		var movingContents = $(".filling")
 
@@ -134,6 +136,7 @@
 				footer.setAttribute("style", "position:absolute ; top:" + footerTop + "px");
 			}, 500);
 		}
+		
 
 		$(document).on("scroll", function () {
 
@@ -142,24 +145,35 @@
 			var mainContents = $(".main_contents_inner")
 			var currentT = pageTop - headerHeight
 
-			console.log("333 " + scrollPos + "  " + pageTop + " -- " + headerHeight + "  [[ " + $(movingContents[0]).position().top)
+			//	console.log("333 " + scrollPos + "  " + pageTop + " -- " + headerHeight + "  [[ " + $(movingContents[0]).position().top)
 			if (scrollPos < pageTop) {
 				for (var i = 0; i < 4; i++) {
 					if (dists[i] < scrollPos) {
-						movingContents[i].style.position = 'fixed'
-						movingContents[i].style.top = '0px'
+						if (movingContents[i].style.position != 'fixed') {
+							movingContents[i].style.position = 'fixed'
+							movingContents[i].style.top = '0px'
+							selectedElNum = i
+							isScrolling = true
+						}
 					}
 				}
 				if (scrollPos > dists[4]) {
-					for(var i=0;i<4;i++){
+					for (var i = 0; i < 4; i++) {
 						movingContents[i].style.position = 'absolute'
-					    movingContents[i].style.top = dists[i] + 'px'
+						movingContents[i].style.top = dists[i] + 'px'
 					}
 				}
+				if (scrollPos > dists[4]) {
+					selectedElNum = 4
+					isScrolling = true
+				}
+
+
 				scrollPos = pageTop
 			} else {
 				for (var i = 5; i > 0; i--) {
 					if (dists[i] > scrollPos && dists[i - 1] < scrollPos) {
+
 						movingContents[i - 1].style.position = 'fixed'
 						movingContents[i - 1].style.top = '0px'
 						for (var j = i; j < 5; j++) {
@@ -167,12 +181,44 @@
 							movingContents[j].style.top = dists[j] + 'px'
 						}
 					}
+
+					if (dists[i] > scrollPos + winHeight * 2 / 3) {
+						mainContents[i].children[1].classList.remove("ani_img_show")
+						mainContents[i].children[1].classList.add("init_hide")
+						mainContents[i].children[0].classList.remove("ani_text_show")
+						mainContents[i].children[0].classList.add("init_hide")
+					}
+
 				}
 				if (scrollPos < dists[0]) {
 					movingContents[0].style.position = 'absolute'
 					movingContents[0].style.top = dists[0] + 'px'
 				}
+
+				if (scrollPos < dists[0]*1/4) {
+					mainContents[0].children[1].classList.remove("ani_img_show")
+					mainContents[0].children[1].classList.add("init_hide")
+					mainContents[0].children[0].classList.remove("ani_text_show")
+					mainContents[0].children[0].classList.add("init_hide")
+				}
+
 				scrollPos = pageTop
+			}
+
+			if (isScrolling) {
+				isScrolling = false
+
+				setTimeout(function () {
+					//console.log("-setTimeout-setTimeout")
+					mainContents[selectedElNum].children[1].classList.add("ani_img_show")
+					mainContents[selectedElNum].children[1].classList.remove("init_hide")
+				}, 100);
+
+				setTimeout(function () {
+					//console.log("-setTimeout-setTimeout")
+					mainContents[selectedElNum].children[0].classList.add("ani_text_show")
+					mainContents[selectedElNum].children[0].classList.remove("init_hide")
+				}, 700);
 			}
 		})
 	</script>

@@ -116,26 +116,26 @@ h1 {
 
 .ani_text_show {
 
-	-webkit-animation: fadein 1s ease-in-out;
+	-webkit-animation: fadein 0.8s ease-in-out;
 	/* Safari, Chrome and Opera > 12.1 */
 
-	-moz-animation: fadein 1s;
+	-moz-animation: fadein 0.8s;
 	/* Firefox < 16 */
-	-ms-animation: fadein 1s;
+	-ms-animation: fadein 0.8s;
 	/* Internet Explorer */
-	-o-animation: fadein 1s;
+	-o-animation: fadein 0.8s;
 	/* Opera < 12.1 */
 }
 
 .ani_img_show {
-	-webkit-animation: fadein 1s ease-in-out;
+	-webkit-animation: fadein 0.8s ease-in-out;
 	/* Safari, Chrome and Opera > 12.1 */
 
-	-moz-animation: fadein 1s;
+	-moz-animation: fadein 0.8s;
 	/* Firefox < 16 */
-	-ms-animation: fadein 1s;
+	-ms-animation: fadein 0.8s;
 	/* Internet Explorer */
-	-o-animation: fadein 1s;
+	-o-animation: fadein 0.8s;
 	/* Opera < 12.1 */
 }
 
