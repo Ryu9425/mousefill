@@ -114,7 +114,6 @@
 		var movingContents = $(".filling")
 
 		$(document).ready(function () {
-			console.log(" oo  ")
 			var movingContents = $(".filling")
 			for (var i = 0; i < movingContents.length; i++) {
 				var dist = headerHeight + winHeight * (i)
@@ -143,63 +142,40 @@
 			var mainContents = $(".main_contents_inner")
 			var currentT = pageTop - headerHeight
 
-			var diff = 10000
-			var selectedElNum = -1
-
-			console.log("333 " + scrollPos + "  " + pageTop + " -- " + headerHeight + "  [[ " + $(movingContents[4]).position().top)
-
-			if(isScrolling) console.log("isScrolling")
-			if(!isFooting) console.log("isFooting")
-
+			console.log("333 " + scrollPos + "  " + pageTop + " -- " + headerHeight + "  [[ " + $(movingContents[0]).position().top)
 			if (scrollPos < pageTop) {
-				console.log("4444")
-				if ((movingContents[4].style.top == '0px' || isScrolling) && isFooting == false) {
-					console.log("5555")
-					for (var i = 0; i < movingContents.length - 1; i++) {
-						if (i != 4) {
-							movingContents[i].style.position = 'absolute'
-						}
+				for (var i = 0; i < 4; i++) {
+					if (dists[i] < scrollPos) {
+						movingContents[i].style.position = 'fixed'
+						movingContents[i].style.top = '0px'
 					}
-					isFooting = true
-				} else if (!isFooting) {
-					for (var i = 0; i < movingContents.length; i++) {
-						console.log("pp  " + i + " : " + $(movingContents[i]).position().top + "  " + currentT + headerHeight)
-						if ($(movingContents[i]).position().top < pageTop + 20 && pageTop > scrollPos) {
-							if (i != 4) {
-								movingContents[i].style.position = 'fixed'
-								movingContents[i].style.top = '0px'
-							} else {
-								isScrolling = true
-							}
-						}
-					}
-				} else {
-					scrollPos = pageTop
 				}
+				if (scrollPos > dists[4]) {
+					for(var i=0;i<4;i++){
+						movingContents[i].style.position = 'absolute'
+					    movingContents[i].style.top = dists[i] + 'px'
+					}
+				}
+				scrollPos = pageTop
 			} else {
 				for (var i = 5; i > 0; i--) {
-					if (dists[i] > scrollPos - 5 && dists[i - 1] < scrollPos) {
+					if (dists[i] > scrollPos && dists[i - 1] < scrollPos) {
 						movingContents[i - 1].style.position = 'fixed'
+						movingContents[i - 1].style.top = '0px'
 						for (var j = i; j < 5; j++) {
 							movingContents[j].style.position = 'absolute'
 							movingContents[j].style.top = dists[j] + 'px'
 						}
 					}
 				}
-				if (scrollPos - 5 < dists[0]) {
+				if (scrollPos < dists[0]) {
 					movingContents[0].style.position = 'absolute'
 					movingContents[0].style.top = dists[0] + 'px'
-
-					isScrolling=false
-					isFooting=false
-
 				}
 				scrollPos = pageTop
 			}
 		})
-
 	</script>
-
 </body>
 
 </html>
