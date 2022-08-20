@@ -96,7 +96,7 @@
 		</div>
 	</section>
 
-	<section class="footer">
+	<section class="footer" id="footer" style="position:absolute;">
 		<img src="assets/img/footer.jpg" alt="">
 	</section>
 
@@ -105,12 +105,13 @@
 		var scrollPos = 0
 		var isScrolling = false
 
-		var isFooting=false
+		var isFooting = false
 		var headerHeight = $(".header").height()
 		var winHeight = $(window).height()
 
-		var movingContents = $(".filling")
+		var dists = []
 
+		var movingContents = $(".filling")
 
 		$(document).ready(function () {
 			console.log(" oo  ")
@@ -118,59 +119,83 @@
 			for (var i = 0; i < movingContents.length; i++) {
 				var dist = headerHeight + winHeight * (i)
 				console.log(i + "  " + dist)
+				dists[i] = dist
 				movingContents[i].style.top = dist + 'px';
+				var footer = $(".footer")
 			}
-			var footer = $(".footer")
-			footer.style.position = 'absolute'
-			footer.style.top = movingContents[i].style.top + winHeight + 'px';
+			for (var i = 0; i < dists.length; i++) {
+				console.log("dist: " + dists[i])
+			}
 		})
+
+		window.onload = function () {
+			setTimeout(function () {
+				var footer = document.getElementById('footer');
+				var footerTop = headerHeight + winHeight * 5
+				footer.setAttribute("style", "position:absolute ; top:" + footerTop + "px");
+			}, 500);
+		}
 
 		$(document).on("scroll", function () {
 
 			var pageTop = $(document).scrollTop()
 			var mainSection = $(".main_contents")
-
 			var mainContents = $(".main_contents_inner")
-
 			var currentT = pageTop - headerHeight
 
 			var diff = 10000
 			var selectedElNum = -1
 
-			console.log("rrrrr  " + currentT)
+			console.log("333 " + scrollPos + "  " + pageTop + " -- " + headerHeight + "  [[ " + $(movingContents[4]).position().top)
 
-			if (movingContents[4].style.top == '0px'&&isFooting==false) {
-				console.log("5555")
-				for (var i = 0; i < movingContents.length - 1; i++) {
-					if (i != 4) {
-						movingContents[i].style.position = 'absolute'
-						movingContents[i].style.top = ''
-						movingContents[i].style.display = 'none'
+			if(isScrolling) console.log("isScrolling")
+			if(!isFooting) console.log("isFooting")
+
+			if (scrollPos < pageTop) {
+				console.log("4444")
+				if ((movingContents[4].style.top == '0px' || isScrolling) && isFooting == false) {
+					console.log("5555")
+					for (var i = 0; i < movingContents.length - 1; i++) {
+						if (i != 4) {
+							movingContents[i].style.position = 'absolute'
+						}
+					}
+					isFooting = true
+				} else if (!isFooting) {
+					for (var i = 0; i < movingContents.length; i++) {
+						console.log("pp  " + i + " : " + $(movingContents[i]).position().top + "  " + currentT + headerHeight)
+						if ($(movingContents[i]).position().top < pageTop + 20 && pageTop > scrollPos) {
+							if (i != 4) {
+								movingContents[i].style.position = 'fixed'
+								movingContents[i].style.top = '0px'
+							} else {
+								isScrolling = true
+							}
+						}
+					}
+				} else {
+					scrollPos = pageTop
+				}
+			} else {
+				for (var i = 5; i > 0; i--) {
+					if (dists[i] > scrollPos - 5 && dists[i - 1] < scrollPos) {
+						movingContents[i - 1].style.position = 'fixed'
+						for (var j = i; j < 5; j++) {
+							movingContents[j].style.position = 'absolute'
+							movingContents[j].style.top = dists[j] + 'px'
+						}
 					}
 				}
+				if (scrollPos - 5 < dists[0]) {
+					movingContents[0].style.position = 'absolute'
+					movingContents[0].style.top = dists[0] + 'px'
 
-				movingContents[4].style.position = 'relative'
-				movingContents[4].style.top = '673px'
-				isFooting=true
-			} else if(!isFooting){
-				for (var i = 0; i < movingContents.length; i++) {
+					isScrolling=false
+					isFooting=false
 
-					console.log("pp  " + i + " : " + $(movingContents[i]).position().top + "  " + currentT + headerHeight)
-
-					if ($(movingContents[i]).position().top < pageTop + 20 && pageTop > scrollPos) {
-						//if(i!=4){
-						movingContents[i].style.position = 'fixed'
-						movingContents[i].style.top = '0px'
-						//}
-
-					}
 				}
-			}else{
-
+				scrollPos = pageTop
 			}
-
-
-			scrollPos = pageTop
 		})
 
 	</script>
