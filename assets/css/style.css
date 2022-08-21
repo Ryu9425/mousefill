@@ -60,9 +60,10 @@ img {
 	margin: auto;
 	padding: 25vh 0;
 }
-.footer{
+
+.footer {
 	width: -webkit-fill-available;
-	position:absolute;
+	position: absolute;
 	z-index: 10;
 }
 
@@ -84,6 +85,7 @@ img {
 	.main_contents_img img {
 		width: 80%;
 	}
+
 	.main_contents_text,
 	.main_contents_img {
 		width: 100% !important;
@@ -107,8 +109,8 @@ img {
 		font-style: 1.5rem !important;
 	}
 
-	.scroll_navigation li,
-	.scroll_navigation_fix li {
+	.scroll_navigation li {
+		display: none !important;
 		width: 8px !important;
 		height: 8px !important;
 		margin: 20px 0 !important;
@@ -119,6 +121,9 @@ img {
 }
 
 @media only screen and (max-width: 500px) {
+	body {
+		overflow: scroll;
+	}
 
 	.main_contents_img img {
 		width: 70%;
@@ -147,8 +152,8 @@ img {
 		font-style: 1.5rem !important;
 	}
 
-	.scroll_navigation li,
-	.scroll_navigation_fix li {
+	.scroll_navigation li {
+		display: none !important;
 		width: 8px !important;
 		height: 8px !important;
 		margin: 20px 0 !important;
@@ -157,7 +162,13 @@ img {
 	}
 
 }
+
 @media only screen and (max-width: 830px) {
+	body {
+		overflow: scroll;
+		/* Show scrollbars */
+	}
+
 	h1 {
 		font-size: 2rem !important;
 		margin-bottom: 2rem !important;
@@ -180,14 +191,10 @@ img {
 	top: 40vh;
 }
 
-.scroll_navigation_fix {
-	position: fixed;
-	left: 1%;
-	top: 40vh;
-}
 
-.scroll_navigation li,
-.scroll_navigation_fix li {
+.scroll_navigation li {
+	display: none in !important;
+
 	width: 15px;
 	height: 15px;
 	margin: 30px 0;
@@ -196,14 +203,13 @@ img {
 	display: block;
 	margin-bottom: 10px;
 	transform: scale(1);
-	transition: transform .2s cubic-bezier(.5, 1, .89, 1);
+	transition: transform .6s cubic-bezier(.5, 1, .89, 1);
 }
 
-.scroll_navigation li.active,
-.scroll_navigation_fix li.active {
+.scroll_navigation li.active {
 	background: #f00;
 	transform: scale(1.25);
-	transition: transform .2s cubic-bezier(.5, 1, .89, 1);
+	transition: transform .6s cubic-bezier(.5, 1, .89, 1);
 }
 
 h1 {
@@ -211,11 +217,10 @@ h1 {
 }
 
 .init_hide {
+	visibility: hidden;
 	opacity: 0;
+	transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
-
-
-
 
 .ani_text_show {
 
@@ -231,6 +236,7 @@ h1 {
 }
 
 .ani_img_show {
+	transform: scale();
 	-webkit-animation: fadein 0.4s ease-in-out;
 	/* Safari, Chrome and Opera > 12.1 */
 
@@ -246,7 +252,7 @@ h1 {
 
 @keyframes fadein {
 	from {
-		opacity: 0
+		opacity: 0,
 	}
 
 	to {
@@ -304,7 +310,8 @@ h1 {
 	margin: 0px 0;
 	position: fixed;
 }
-.filling.first{
+
+.filling.first {
 	position: absolute;
 }
 
@@ -313,39 +320,47 @@ h1 {
 }
 
 .filling_show {
-	-webkit-animation: fadeinFill 0.2s ease-in-out;
+	-webkit-animation: fadeinFill 0.7s ease-out;
 	animation-fill-mode: forwards;
-	/* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: fadein 0.7s ease-in-out;
+	/* Firefox < 16 */
+	-ms-animation: fadein 0.7s ease-in-out;
+	/* Internet Explorer */
+	-o-animation: fadein 0.7s ease-in-out;
 	/* Opera < 12.1 */
 }
 
 @keyframes fadeinFill {
 	from {
 		/*top: 2300px*/
-			top: var(--topStart)
+		top: var(--topStart)
 	}
 
 	to {
 		/*top: 1300px*/
-			top: var(--topEnd)
+		top: var(--topEnd)
 	}
 }
 
 .filling_hide {
-	-webkit-animation: fadeoutFill 0.2s ease-in-out;
+	-webkit-animation: fadeoutFill 0.7s ease-in-out;
 	animation-fill-mode: forwards;
-	/* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: fadein 0.7s ease-in-out;
+	/* Firefox < 16 */
+	-ms-animation: fadein 0.7s ease-in-out;
+	/* Internet Explorer */
+	-o-animation: fadein 0.7s ease-in-out;
 	/* Opera < 12.1 */
 }
 
 @keyframes fadeoutFill {
 	from {
 		/*top: 2300px*/
-			top: var(--topOStart)
+		top: var(--topOStart)
 	}
 
 	to {
 		/*top: 1300px*/
-			top: var(--topOEnd)
+		top: var(--topOEnd)
 	}
 }
