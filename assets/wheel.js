@@ -3,16 +3,10 @@
 var scrollPos = 0;
 var isScrolling = true;
 
-var isFooting = false;
-
 var headerHeight = $(".header").height();
 var winHeight = $(window).height();
 
 var scroll_navigationTop = headerHeight + (winHeight * 4) / 10;
-
-var dists = [];
-
-var selectedElNum = -1;
 
 var movingContents = $(".filling");
 var mainContents = $(".main_contents_inner");
@@ -50,19 +44,7 @@ $(document).ready(function () {
 
     footer.setAttribute("style", "position:fixed; top:" + footerTop + "px");
   }
-  for (var i = 0; i < dists.length; i++) {
-    //console.log("dist: " + dists[i])
-  }
 });
-
-window.onload = function () {
-  // console.log("load");
-  //	var scroll_navigation = document.getElementById('scroll_navigation');
-  //	scroll_navigation.setAttribute("style", "top:" + scroll_navigationTop + "px");
-  //	var footer = document.getElementById('footer');
-
-  //	footer.setAttribute("style", "position:fixed; top:" + footerTop + "px");
-};
 
 var init_state = true;
 var is_downing = false;
@@ -70,7 +52,6 @@ var is_downing = false;
 // new added //
 var div_id = -1;
 var current_el = 0;
-var pre_dev;
 
 var navLis = $(".dot");
 var navEl = $(".scroll_navigation");
@@ -80,19 +61,16 @@ var downObj = document.getElementById("down-container");
 window.addEventListener("wheel", (event) => {
   const delta = Math.sign(event.deltaY);
 
-  //	console.log("inti state " + init_state + "  " + delta + "  " + div_id + " " + isScrolling)
-  if (div_id == -1 || !isScrolling) return;
+  	console.log("inti state " + currentAnimateEndedTime + "  " + delta + "  " + div_id + " " + new Date().getTime())
+  if (div_id == -1 || currentAnimateEndedTime==0) {
+    console.log("inti state " + init_state + "  " + delta + "  " + div_id + " " + currentAnimateEndedTime)
+    return;
+  }
 
   if (delta == 1) {
     if (div_id == 0) {
-      // if (mainContents[0].children[0].classList.contains("ani_text_show")) {
       if (downObj.classList.contains("show")) {
-        if (currentAnimateEndedTime == 0) return;
         currentAnimateEndedTime = 0;
-        isScrolling = false;
-
-        // console.log("zzzzzzzzzzzzzzz");
-
         downObj.classList.remove("show");
         downObj.classList.add("hide");
 
@@ -106,12 +84,11 @@ window.addEventListener("wheel", (event) => {
           current_el = 1;
 
           init_state = true;
-        }, 1300);
+        }, 600);
 
         setTimeout(function () {
-          isScrolling = true;
           currentAnimateEndedTime = new Date().getTime();
-        }, 1800);
+        }, 900);
       } else {
         if (current_el == 0) {
           mainContents[0].children[1].classList.add("ani_img_show");
@@ -127,37 +104,15 @@ window.addEventListener("wheel", (event) => {
           downObj.classList.add("show");
         }
 
-        if (currentAnimateEndedTime == 0) return;
         currentAnimateEndedTime = 0;
-
-        isScrolling = false;
         init_state = true;
 
         setTimeout(function () {
-          isScrolling = true;
           currentAnimateEndedTime = new Date().getTime();
         }, 500);
       }
     } else if (div_id < 5 && div_id > 0) {
-      // console.log("iiiii " + div_id + " " + current_el + " o " + isScrolling);
-      // if (div_id == 1 && current_el == 0) {
-      //   console.log("bbbbbbbbbbb");
-      //   downObj.classList.remove("show");
-      //   downObj.classList.add("hide");
-      //   isScrolling = false;
-
-      //   setTimeout(function () {
-      //     if (movingContents[div_id].classList.contains("filling_hide"))
-      //       movingContents[div_id].classList.remove("filling_hide");
-      //     movingContents[div_id].classList.add("filling_show");
-      //     dot_active(div_id - 1, div_id);
-      //     current_el = 1;
-      //   }, 700);
-
-      //   setTimeout(function () {
-      //     isScrolling = true;
-      //   }, 800);
-      // } else {
+      currentAnimateEndedTime=0;
       if (
         mainContents[div_id].children[0].classList.contains("ani_text_show") &&
         div_id != 4
@@ -187,13 +142,11 @@ window.addEventListener("wheel", (event) => {
           current_el = 0;
           div_id++;
         }
-      }
-
-      isScrolling = false;
+      }     
 
       setTimeout(function () {
-        isScrolling = true;
-      }, 500);
+        currentAnimateEndedTime=new Date().getTime();
+      }, 800);
       // }
     } else if (div_id == 5) {
       div_id = -2;
@@ -211,7 +164,7 @@ window.addEventListener("wheel", (event) => {
       footer.setAttribute("style", " ; top:" + f_ff + "px");
       $(document).scrollTop(hh);
       init_state = false;
-      isScrolling = true;
+      currentAnimateEndedTime=0;
 
       var scroll_navigation = document.getElementById("scroll_navigation");
       scroll_navigation.setAttribute(
@@ -221,7 +174,7 @@ window.addEventListener("wheel", (event) => {
       //}
     }
   } else {
-    if (div_id == 0 && isScrolling) {
+    if (div_id == 0) {
       //	console.log("downded-- " + div_id)
 
       movingContents[0].setAttribute("style", " top:" + headerHeight + "px");
@@ -237,22 +190,14 @@ window.addEventListener("wheel", (event) => {
       $(document).scrollTop(headerHeight);
       div_id = -1;
 
-      isScrolling = false;
+      currentAnimateEndedTime = 0;
       init_state = true;
 
       setTimeout(function () {
-        isScrolling = true;
-      }, 400);
-    } else if (div_id > 0 && div_id < 4 && isScrolling) {
-      // console.log(
-      //   "iiiii " +
-      //     div_id +
-      //     " out... " +
-      //     isScrolling +
-      //     $(movingContents[div_id + 1]).top
-      // );
-
-      if (currentAnimateEndedTime == 0) return;
+        currentAnimateEndedTime=new Date().getTime();
+      }, 600);
+    } else if (div_id > 0 && div_id < 4) {
+      
       currentAnimateEndedTime = 0;
       // console.log("time.. " + currentAnimateEndedTime);
 
@@ -260,36 +205,35 @@ window.addEventListener("wheel", (event) => {
       movingContents[div_id].classList.add("filling_hide");
 
       dot_active(div_id, div_id - 1);
-      isScrolling = false;
+      currentAnimateEndedTime = 0;
 
       div_id--;
       current_el = 1;
 
       setTimeout(function () {
-        isScrolling = true;
         currentAnimateEndedTime = new Date().getTime();
         mainContents[div_id + 1].children[1].classList.remove("ani_img_show");
         mainContents[div_id + 1].children[1].classList.add("init_hide");
         mainContents[div_id + 1].children[0].classList.remove("ani_text_show");
         mainContents[div_id + 1].children[0].classList.add("init_hide");
-      }, 1800);
-    } else if (div_id == 4 && isScrolling) {
+      }, 1600);
+    } else if (div_id == 4) {
       movingContents[div_id].classList.remove("filling_show");
       movingContents[div_id].classList.add("filling_hide");
 
       dot_active(div_id, div_id - 1);
-      isScrolling = false;
+      currentAnimateEndedTime = 0;
 
       div_id--;
       current_el = 1;
 
       setTimeout(function () {
-        isScrolling = true;
+        currentAnimateEndedTime = new Date().getTime();
         mainContents[div_id + 1].children[1].classList.remove("ani_img_show");
         mainContents[div_id + 1].children[1].classList.add("init_hide");
         mainContents[div_id + 1].children[0].classList.remove("ani_text_show");
         mainContents[div_id + 1].children[0].classList.add("init_hide");
-      }, 1800);
+      }, 1600);
     } else if (div_id == -2) {
       is_downing = false;
     }
@@ -318,7 +262,7 @@ $(document).on("scroll", function () {
     div_id = 0;
     current_el = 0;
     init_state = false;
-    isScrolling = true;
+    currentAnimateEndedTime = new Date().getTime();
 
     var scroll_navigation = document.getElementById("scroll_navigation");
     scroll_navigation.setAttribute(
@@ -363,14 +307,13 @@ $(document).on("scroll", function () {
       );
 
       setTimeout(function () {
-        isScrolling = true;
+        currentAnimateEndedTime = new Date().getTime();
         current_el = 2;
         div_id = 4;
       }, 500);
     }
   }
 
-  //console.log(currentT+" "+(dists[3] - winHeight / 2)+" "+scroll_MaxTop+ " : "+ headerHeight)
   if (div_id > 0 && div_id < 5) {
     var scroll_navigation = document.getElementById("scroll_navigation");
     scroll_navigation.setAttribute(
