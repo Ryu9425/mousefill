@@ -68,28 +68,7 @@ window.addEventListener("wheel", (event) => {
   }
 
   if (delta == 1) {
-    if (div_id == 0) {
-      if (downObj.classList.contains("show")) {
-        currentAnimateEndedTime = 0;
-        downObj.classList.remove("show");
-        downObj.classList.add("hide");
-
-        setTimeout(function () {
-          if (movingContents[1].classList.contains("filling_hide"))
-            movingContents[1].classList.remove("filling_hide");
-          movingContents[1].classList.add("filling_show");
-          dot_active(0, 1);
-          
-          div_id = 1;
-          current_el = 1;
-
-          init_state = true;
-        }, 600);
-
-        setTimeout(function () {
-          currentAnimateEndedTime = new Date().getTime();
-        }, 900);
-      } else {
+    if (div_id == 0) {     
         if (current_el == 0) {
           mainContents[0].children[1].classList.add("ani_img_show");
           mainContents[0].children[1].classList.remove("init_hide");
@@ -99,9 +78,8 @@ window.addEventListener("wheel", (event) => {
           mainContents[0].children[0].classList.remove("init_hide");
           current_el = 2;
         } else if (current_el == 2) {
-          // console.log("rrrrrrrrrrrrrrrrrr");
-          downObj.classList.remove("hide");
-          downObj.classList.add("show");
+          div_id=1;
+          current_el=0;
         }
 
         currentAnimateEndedTime = 0;
@@ -110,7 +88,7 @@ window.addEventListener("wheel", (event) => {
         setTimeout(function () {
           currentAnimateEndedTime = new Date().getTime();
         }, 500);
-      }
+    
     } else if (div_id < 5 && div_id > 0) {
       currentAnimateEndedTime=0;
       if (
@@ -150,6 +128,7 @@ window.addEventListener("wheel", (event) => {
       // }
     } else if (div_id == 5) {
       div_id = -2;
+      is_downing=true;
       //if (init_state) {
       var hh = headerHeight + winHeight;
       var f_ff = headerHeight + winHeight * 2;
@@ -235,7 +214,7 @@ window.addEventListener("wheel", (event) => {
         mainContents[div_id + 1].children[0].classList.add("init_hide");
       }, 1600);
     } else if (div_id == -2) {
-      is_downing = false;
+     // is_downing = true;
     }
   }
 });
@@ -254,9 +233,9 @@ function dot_active(pre_dot_id, current_dot_id) {
 
 $(document).on("scroll", function () {
   var pageTop = $(document).scrollTop();
-  //console.log("55555555  " + pageTop + " " + headerHeight + " " + init_state)
+  console.log("55555555  " + pageTop + " " + headerHeight + " " + init_state)
 
-  if (pageTop > headerHeight && init_state) {
+  if (pageTop > headerHeight-1 && init_state&&pageTop>scrollPos) {
     movingContents[0].style.position = "fixed";
     movingContents[0].style.top = "0px";
     div_id = 0;
@@ -282,13 +261,13 @@ $(document).on("scroll", function () {
     mainContents[0].children[0].classList.add("init_hide");
   }
 
-  //	console.log("downing..pagetop. " + pageTop + "  scrollpos " + scrollPos + " is downloading.." + is_downing
-  //		+ " start " + start + " divid " + div_id + " scrolling  " + isScrolling + " curr  " + current_el)
+  	console.log("downing..pagetop. " + pageTop + "  scrollpos " + scrollPos + " is downloading.." + is_downing
+  		+ " start " + start + " divid " + div_id + " scrolling  " + isScrolling + " curr  " + current_el)
 
-  if (pageTop < scrollPos && div_id == -2) {
-    if (pageTop < headerHeight + winHeight && is_downing == false) {
+  if (pageTop < scrollPos-1 && div_id == -2) {
+    if (pageTop < headerHeight + winHeight+1 && is_downing == true) {
       //			console.log("111... " + $(movingContents[4]).position().top + "  " + start)
-      is_downing = true;
+      is_downing = false;
       movingContents[4].setAttribute(
         "style",
         "position:fixed; top: 0px;	--topStart: " +

@@ -82,6 +82,10 @@ img {
 
 @media only screen and (max-width: 768px) {
 
+	html, body{
+		overscroll-behavior-y: contain;
+	}
+
 	.main_contents_img img {
 		width: 80%;
 	}
@@ -121,21 +125,29 @@ img {
 		transform: scale(1);
 		transition: transform .2s cubic-bezier(.5, 1, .89, 1);
 	}
-
 }
 
 @media only screen and (max-width: 500px) {
+	
 	body {
 		overflow: scroll;
 	}
 
 	.main_contents_img img {
-		width: 70%;
+		width: 85%;
+		display: flex;
+		margin: auto;
+	}
+
+	.filling{
+		flex-direction: column;
+		display: flex;
 	}
 
 	.main_contents_text,
 	.main_contents_img {
 		width: 100% !important;
+		margin-top: 10%;
 	}
 
 	.main_contents_inner,
@@ -171,9 +183,10 @@ img {
 
 }
 
-@media only screen and (max-width: 830px) {
+@media only screen and (min-width: 501px) and (max-width: 830px) {
 	body {
 		overflow: scroll;
+		overscroll-behavior-y: contain;
 		/* Show scrollbars */
 	}
 
@@ -219,8 +232,7 @@ img {
 }
 
 h1 {
-	font-size: 3rem;
-
+	font-size: 2.5rem;
 }
 
 .init_hide {
@@ -412,7 +424,7 @@ h1 {
 	margin: auto;
 }
 
-.down-container.show{
+.down-container.show {
 	-webkit-animation: fadein 1.5s ease-in-out;
 	/* Safari, Chrome and Opera > 12.1 */
 	animation-fill-mode: forwards;
@@ -425,7 +437,7 @@ h1 {
 	-o-animation: fadein 1.5s ease-in-out;
 }
 
-.down-container.hide{
+.down-container.hide {
 	-webkit-animation: fadeout 1.0s ease-in-out;
 	/* Safari, Chrome and Opera > 12.1 */
 	animation-fill-mode: forwards;
@@ -435,7 +447,7 @@ h1 {
 	/* Firefox < 16 */
 	-ms-animation: fadeout 1.0s ease-in-out;
 	/* Internet Explorer */
-	-o-animation: fadeout 1.0s ease-in-out;	
+	-o-animation: fadeout 1.0s ease-in-out;
 }
 
 
